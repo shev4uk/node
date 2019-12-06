@@ -1,0 +1,6 @@
+<p>signin works!</p>
+<form [formGroup]="formSignin" (ngSubmit)="onSubmit()">
+  <input type="text" formControlName="email">
+  <input type="password" formControlName="password">
+  <input type="submit" value="Send">
+</form>
