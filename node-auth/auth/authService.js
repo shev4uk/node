@@ -1,7 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const User = require('./authModel');
 
-const userValidationRules = () => {
+const userValidationSignup = () => {
   return [
     body('email', 'Invalid email')
       .isEmail()
@@ -24,8 +24,7 @@ const userValidationRules = () => {
       })  
     ]
 }
-
-const validate = (req, res, next) => {
+const validateSignup = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error('Validation failed.');
@@ -36,7 +35,30 @@ const validate = (req, res, next) => {
   return next();
 }
 
+const userValidationSignin = () => {
+  return [
+    body('email', 'Invalid email')
+      .isEmail()
+      .bail(),
+    body('password', 'invalid password')
+      .isLength({ min: 8 }).withMessage('Password minimum 8')
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, 'i').withMessage('Password least one letter, one number and one special character') 
+    ]
+}
+const validateSignin = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new Error('Incorrect username or password');
+    error.statusCode = 401;
+    error.data = errors.array().map(err => ({msg: err.msg, param: err.param}));
+    throw error;
+  }
+  return next();
+}
+
 module.exports = {
-  userValidationRules,
-  validate,
+  userValidationSignup,
+  validateSignup,
+  userValidationSignin,
+  validateSignin
 }
