@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+// const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 
 const app = express();
@@ -26,6 +26,14 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use('/auth', authRoutes);
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({message: message, data: data});
+})
 
 mongoose.connect(process.env.DB_HOST, {
   useNewUrlParser: true,

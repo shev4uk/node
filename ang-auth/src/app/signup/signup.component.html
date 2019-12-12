@@ -1,6 +1,14 @@
-<p>signup works!</p>
-<form [formGroup]="formSignup" (ngSubmit)="onSubmit()">
-  <input type="text" formControlName="email">
-  <input type="password" formControlName="password">
-  <input type="submit" value="Send">
-</form>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h2 class="mt-2">Signup</h2>
+    <form [formGroup]="formSignup" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="email" placeholder="email">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" formControlName="password" placeholder="password">
+      </div>
+      <input type="submit" value="Send" class="btn btn-primary">
+    </form>
+  </div>
+</div>

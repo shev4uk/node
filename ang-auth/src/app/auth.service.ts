@@ -15,7 +15,7 @@ export class AuthService {
   ) { }
 
   signin(user: User): Observable<any> {
-    return this.http.post(`${this.urlApi}auth/signin`, {});
+    return this.http.post(`${this.urlApi}auth/signin`, user);
   }
   signup(user: User): Observable<any> {
     return this.http.post(`${this.urlApi}auth/signup`, user);
