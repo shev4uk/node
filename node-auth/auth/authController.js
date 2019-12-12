@@ -1,12 +1,7 @@
 const bcrypt = require('bcryptjs');
-const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
 const User = require('./authModel');
-
-exports.isLogin = (req, res, next) => {
-  return res.json({status: true})
-}
 
 exports.signin = (req, res, next) => {
   const email = req.body.email;
@@ -14,6 +9,7 @@ exports.signin = (req, res, next) => {
   let loadedUser;
   User.findOne({email: email})
     .then(user => {
+      console.log(user);
       if (!user) {
         const error = new Error('user not found');
         error.statusCode = 401;
@@ -45,13 +41,6 @@ exports.signin = (req, res, next) => {
 }
 
 exports.signup = (req, res, next) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   const error = new Error('Validation failed.');
-  //   error.statusCode = 422;
-  //   error.data = errors.array();
-  //   throw error;
-  // }
   const email = req.body.email;
   const password = req.body.password;
   bcrypt
@@ -63,11 +52,10 @@ exports.signup = (req, res, next) => {
       });
       return user.save();
     })
-    .then(result => {
-      res.status(201).json({msq: 'create new user'})
+    .then(() => {
+      res.status(201).json({message: 'create new user'})
     })
     .catch( err => {
-      console.log(err);
       next(err);
     })
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -18,8 +18,9 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.formSignup = this.fb.group({
-      email: [],
-      password: []
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$.!%*#?&])[A-Za-z\d@$.!%*#?&]{8,}$/)]],
+      passwordConfirm: ['', [Validators.required]]
     });
   }
 
