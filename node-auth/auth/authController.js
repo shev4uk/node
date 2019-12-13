@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const User = require('./authModel');
 
@@ -62,3 +63,29 @@ exports.signup = (req, res, next) => {
     })
 }
 
+exports.resetPassword = (req, res, next) => {
+  const email = req.body.email;
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+           user: 'test.db.firebase@gmail.com',
+           pass: 'firebase_1144'
+       }
+   });
+  const mailOptions = {
+    from: 'sender@email.com', // sender address
+    to: email, // list of receivers
+    subject: 'Subject of your email', // Subject line
+    html: '<p>Your html here</p>'// plain text body
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if(err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+    else {
+      console.log(info);
+      res.status(200).json(info.envelope);
+    }
+ });
+}

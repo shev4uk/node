@@ -20,4 +20,8 @@ export class AuthService {
   signup(user: User): Observable<any> {
     return this.http.post(`${this.urlApi}auth/signup`, user);
   }
+
+  resetPassword(email): Observable<any> {
+    return this.http.post(`${this.urlApi}auth/reset-password`, email);
+  }
 }
