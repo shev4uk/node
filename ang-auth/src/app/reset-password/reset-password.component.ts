@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ResetPasswordComponent implements OnInit {
 
   formResetPassword: FormGroup;
+  showSuccessMsg = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +26,7 @@ export class ResetPasswordComponent implements OnInit {
   onSubmit() {
     this.auth.resetPassword(this.formResetPassword.value).subscribe( (res) => {
       console.log(res);
+      this.showSuccessMsg = res;
     });
   }
 

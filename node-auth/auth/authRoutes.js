@@ -7,6 +7,8 @@ router.post('/signin', userValidationSignin(), validateSignin, authController.si
 
 router.post('/signup', userValidationSignup(), validateSignup, authController.signup);
 
-router.post('/reset-password', authController.resetPassword)
+router.post('/reset-password', authController.resetPassword);
+
+router.post('/new-password', authController.newPassword);
 
 module.exports = router;
